@@ -1,0 +1,31 @@
+image: swiguna/quasar:v2.0.0
+
+services:
+
+variables:
+
+stages:
+  - version
+  - build
+  - deploy
+  - result
+
+build:
+  stage: build
+  script:
+    - yarn
+    - quasar build -m pwa
+  artifacts:
+    paths:
+      - ./dist
+  only:
+    - dev
+
+pages:
+  stage: result
+  script:
+    - mkdir public/ || true
+    - cp -a ./dist/pwa/. public/
+  artifacts:
+    paths:
+      - public
